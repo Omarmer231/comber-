@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بطاقات الطلاب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1620;
+    --panel: #162231;
+    --panel-2: #1c2b3d;
+    --line: #2a3b50;
+    --text: #e8eef4;
+    --muted: #8fa3b8;
+    --accent: #f0b84a;
+    --accent-ink: #1b1405;
+    --error: #ff7a7a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+  }
+  main { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 2rem; font-weight: 700; }
+  .lead { color: var(--muted); margin-top: 6px; margin-bottom: 32px; }
+
+  .forms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  fieldset {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 20px 22px;
+    min-width: 0;
+  }
+  legend {
+    padding: 0 10px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  label {
+    display: block;
+    font-size: .9rem;
+    color: var(--muted);
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  input {
+    width: 100%;
+    font: inherit;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+  input[inputmode="numeric"], input[type="tel"] { direction: ltr; text-align: right; }
+  input.invalid { border-color: var(--error); }
+
+  .actions { margin-top: 22px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 26px;
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  button:hover { filter: brightness(1.07); }
+  button:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+  button.ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+  }
+  .error { color: var(--error); font-size: .95rem; }
+
+  #result { margin-top: 36px; }
+  #result[hidden] { display: none; }
+  .verdict {
+    background: var(--panel-2);
+    border-right: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+  }
+  .verdict code {
+    direction: ltr;
+    unicode-bidi: embed;
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 6px;
+    color: var(--accent);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .card.chosen { border-color: var(--accent); }
+  .card h2 { font-size: 1.1rem; margin-bottom: 4px; }
+  .badge {
+    display: inline-block;
+    font-size: .8rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: 99px;
+    padding: 0 10px;
+    margin-bottom: 8px;
+  }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin-top: 10px; }
+  dt { color: var(--muted); }
+  dd { overflow-wrap: anywhere; }
+  dd.ltr { direction: ltr; text-align: right; }
+
+  @media (max-width: 640px) {
+    .forms, .cards { grid-template-columns: 1fr; }
+    h1 { font-size: 1.6rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>بطاقات الطلاب</h1>
+  <p class="lead">أدخل بيانات طالبين، وبعدها قارن بين الرقمين التعريفيين.</p>
+
+  <div class="forms">
+    <fieldset>
+      <legend>الطالب الأول (s1)</legend>
+      <label for="id1">الرقم التعريفي (id)</label>
+      <input id="id1" inputmode="numeric" value="4510412">
+      <label for="name1">الاسم</label>
+      <input id="name1" value="Omar Amer">
+      <label for="age1">العمر</label>
+      <input id="age1" inputmode="numeric" value="23">
+      <label for="addr1">العنوان</label>
+      <input id="addr1" value="med al mhzooR">
+      <label for="mob1">رقم الجوال</label>
+      <input id="mob1" type="tel" value="0546300074">
+    </fieldset>
+
+    <fieldset>
+      <legend>الطالب الثاني (s2)</legend>
+      <label for="id2">الرقم التعريفي (id2)</label>
+      <input id="id2" inputmode="numeric" value="4510413">
+      <label for="name2">الاسم</label>
+      <input id="name2" value="Amer">
+      <label for="age2">العمر</label>
+      <input id="age2" inputmode="numeric" value="25">
+      <label for="addr2">العنوان</label>
+      <input id="addr2" value="jed">
+      <label for="mob2">رقم الجوال</label>
+      <input id="mob2" type="tel" value="0542633838">
+    </fieldset>
+  </div>
+
+  <div class="actions">
+    <button id="run" type="button">قارن واعرض</button>
+    <button id="reset" type="button" class="ghost">مسح النتيجة</button>
+    <span id="error" class="error" role="alert"></span>
+  </div>
+
+  <section id="result" hidden aria-live="polite">
+    <div class="verdict" id="verdict"></div>
+    <div class="cards" id="cards"></div>
+  </section>
+</main>
+
+<script>
+  // نفس الكلاس في بايثون
+  class Student {
+    constructor(name, age, address, mobile) {
+      this.name = name;
+      this.age = age;
+      this.address = address;
+      this.mobile = mobile;
+    }
+  }
+
+  const $ = (id) => document.getElementById(id);
+
+  function read(n) {
+    return {
+      id: $("id" + n).value.trim(),
+      name: $("name" + n).value.trim(),
+      age: $("age" + n).value.trim(),
+      addr: $("addr" + n).value.trim(),
+      mob: $("mob" + n).value.trim(),
+    };
+  }
+
+  function validate() {
+    document.querySelectorAll("input").forEach((i) => i.classList.remove("invalid"));
+    const bad = [];
+    for (const n of [1, 2]) {
+      for (const f of ["id", "age"]) {
+        const el = $(f + n);
+        if (!/^\d+$/.test(el.value.trim())) bad.push(el);
+      }
+      for (const f of ["name", "addr", "mob"]) {
+        const el = $(f + n);
+        if (!el.value.trim()) bad.push(el);
+      }
+    }
+    bad.forEach((el) => el.classList.add("invalid"));
+    return bad;
+  }
+
+  function buildCard(title, student, chosen) {
+    const card = document.createElement("div");
+    card.className = "card" + (chosen ? " chosen" : "");
+
+    if (chosen) {
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = "الطالب المعروض";
+      card.appendChild(badge);
+    }
+
+    const h = document.createElement("h2");
+    h.textContent = title;
+    card.appendChild(h);
+
+    const dl = document.createElement("dl");
+    const rows = [
+      ["الاسم", student.name, false],
+      ["العمر", student.age, false],
+      ["العنوان", student.address, false],
+      ["الجوال", student.mobile, true],
+    ];
+    for (const [k, v, ltr] of rows) {
+      const dt = document.createElement("dt");
+      dt.textContent = k;
+      const dd = document.createElement("dd");
+      dd.textContent = v;
+      if (ltr) dd.className = "ltr";
+      dl.append(dt, dd);
+    }
+    card.appendChild(dl);
+    return card;
+  }
+
+  $("run").addEventListener("click", () => {
+    const err = $("error");
+    err.textContent = "";
+    const bad = validate();
+    if (bad.length) {
+      err.textContent = "عبّ الحقول المحدّدة بالأحمر (الرقم التعريفي والعمر أرقام فقط).";
+      bad[0].focus();
+      return;
+    }
+
+    const a = read(1), b = read(2);
+    const s1 = new Student(a.name, a.age, a.addr, a.mob);
+    const s2 = new Student(b.name, b.age, b.addr, b.mob);
+
+    // if id != id2: print(s1) else: print(s2)
+    const different = Number(a.id) !== Number(b.id);
+    const shown = different ? s1 : s2;
+
+    const verdict = $("verdict");
+    verdict.textContent = "";
+    const code = document.createElement("code");
+    code.textContent = different ? "id != id2" : "id == id2";
+    verdict.append(
+      code,
+      document.createTextNode(
+        different
+          ? " ← الرقمان مختلفان، فيُعرض الطالب الأول."
+          : " ← الرقمان متساويان، فيُعرض الطالب الثاني."
+      )
+    );
+
+    const cards = $("cards");
+    cards.textContent = "";
+    cards.append(
+      buildCard("الطالب الأول", s1, shown === s1),
+      buildCard("الطالب الثاني", s2, shown === s2)
+    );
+
+    $("result").hidden = false;
+    $("result").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  $("reset").addEventListener("click", () => {
+    $("result").hidden = true;
+    $("error").textContent = "";
+    document.querySelectorAll("input").forEach((i) => i.classList.remove("invalid"));
+  });
+</script>
+</body>
+</html>
